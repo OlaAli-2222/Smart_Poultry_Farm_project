@@ -1,8 +1,8 @@
 <?php
-$servername = "sql204.infinityfree.com"; // Replace with your database host
-$dbname = "if0_37738029_poultry_farm_db"; // Replace with your database name
-$username = "if0_37738029"; // Replace with your database username
-$password = "1oVDwyJ3ewgP"; // Replace with your database password
+$servername = "your database host"; // Replace with your database host
+$dbname = "your database name"; // Replace with your database name
+$username = "your database username"; // Replace with your database username
+$password = "your database password"; // Replace with your database password
 
 // Create connection
 $conn = new mysqli($servername, $username, $password, $dbname);
