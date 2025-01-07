@@ -1,0 +1,68 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <script>
+        window.onload = function () {
+            var dps = []; // نقاط البيانات
+            var errorDps = []; // نطاق الخطأ
+            var xVal = 0;
+            var yVal = 100; 
+            var updateInterval = 1000; // التحديث كل ثانية
+            var dataLength = 20; // عدد النقاط المرئية في الرسم
+
+            // تعريف الرسم البياني
+            var chart = new CanvasJS.Chart("chartContainer", {
+                title: {
+                    text: "Dynamic Data with Error Range"
+                },
+                axisY: {
+                    title: "Value"
+                },
+                data: [
+                    {
+                        type: "line",
+                        name: "Data",
+                        markerType: "circle",
+                        toolTipContent: "X: {x}, Y: {y}",
+                        dataPoints: dps
+                    },
+                    {
+                        type: "error",
+                        name: "Error Range",
+                        toolTipContent: "Error Range: {y[0]} - {y[1]}",
+                        dataPoints: errorDps
+                    }
+                ]
+            });
+
+            // تحديث الرسم البياني
+            function updateChart(count) {
+                count = count || 1;
+
+                for (var i = 0; i < count; i++) {
+                    yVal = yVal + Math.round(Math.random() * 10 - 5); // تحديث عشوائي للقيمة
+                    var errorMargin = Math.random() * 5; // تحديد هامش الخطأ
+                    dps.push({ x: xVal, y: yVal });
+                    errorDps.push({ x: xVal, y: [yVal - errorMargin, yVal + errorMargin] });
+                    xVal++;
+                }
+
+                if (dps.length > dataLength) {
+                    dps.shift();
+                    errorDps.shift();
+                }
+
+                chart.render();
+            }
+
+            // استدعاء التحديث
+            updateChart(dataLength); // التحديث الأولي
+            setInterval(function () { updateChart(); }, updateInterval); // تحديث مستمر
+        }
+    </script>
+</head>
+<body>
+    <div id="chartContainer" style="height: 300px; width: 100%;"></div>
+    <script src="https://cdn.canvasjs.com/canvasjs.min.js"></script>
+</body>
+</html>
