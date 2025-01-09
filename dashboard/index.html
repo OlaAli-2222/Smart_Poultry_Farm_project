@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Smart Poultry Farm Dashboard</title>
+    <link rel="stylesheet" href="assets/style.css">
+</head>
+<body>
+    <div id="data-display">
+        <h1>Farm Sensor Data</h1>
+        <table id="data-table">
+            <thead>
+                <tr>
+                    <th>Temperature (°C)</th>
+                    <th>Humidity (%)</th>
+                    <th>CO2 (ppm)</th>
+                    <th>NH3 (ppm)</th>
+                    <th>Date</th>
+                </tr>
+            </thead>
+            <tbody id="data-body">
+                <!-- Data rows will be inserted here by JavaScript -->
+            </tbody>
+        </table>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        // Function to fetch data from API and populate the table
+        function fetchData() {
+            $.ajax({
+                url: 'http://localhost:3000/api/data',
+                type: 'GET',
+                success: function(data) {
+                    let dataTableBody = $("#data-body");
+                    dataTableBody.empty(); // Clear the existing table data
+
+                    data.forEach(item => {
+                        const row = `
+                            <tr>
+                                <td>${item.Temperature}</td>
+                                <td>${item.Humidity}</td>
+                                <td>${item.CO2}</td>
+                                <td>${item.NH3}</td>
+                                <td>${item.date_time}</td>
+                            </tr>
+                        `;
+                        dataTableBody.append(row);
+                    });
+                },
+                error: function() {
+                    alert("Error fetching data!");
+                }
+            });
+        }
+
+        // Fetch data when page loads
+        $(document).ready(function() {
+            fetchData();
+        });
+    </script>
+</body>
+</html>
