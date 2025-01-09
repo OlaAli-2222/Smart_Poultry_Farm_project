@@ -1,7 +1,0 @@
-{
-    "routes": [
-      { "src": "/api/(.*)", "dest": "node_api/server.js" },
-      { "src": "/(.*)", "dest": "Dashboard/index.html" }
-    ]
-  }
-  
