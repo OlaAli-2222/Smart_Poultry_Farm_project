@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Smart Poultry Farm Dashboard</title>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>  <!-- مكتبة الرسوم البيانية -->
+</head>
+<body>
+
+  <h1>Smart Poultry Farm Data</h1>
+  
+  <!-- الرسوم البيانية (charts) -->
+  <canvas id="tempChart" width="400" height="200"></canvas>
+
+  <script>
+    // جلب البيانات من API عبر AJAX (Fetch)
+    fetch('http://localhost:3000/api/data')
+      .then(response => response.json())
+      .then(data => {
+        // قم بإضافة البيانات إلى الرسوم البيانية
+        let tempData = data.map(item => item.Temperature);
+        let timeLabels = data.map(item => item.timestamp);
+
+        var ctx = document.getElementById('tempChart').getContext('2d');
+        var tempChart = new Chart(ctx, {
+          type: 'line', // نوع الرسم البياني: خطي
+          data: {
+            labels: timeLabels,
+            datasets: [{
+              label: 'Temperature',
+              data: tempData,
+              borderColor: 'rgba(255, 99, 132, 1)',
+              fill: false
+            }]
+          }
+        });
+      })
+      .catch(err => console.log('Error fetching data: ', err));
+  </script>
+
+</body>
+</html>
